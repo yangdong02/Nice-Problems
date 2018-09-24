@@ -10,12 +10,11 @@ using namespace std;
 typedef long long ll;
 ll a, b, ans;
 int main(){
-	cin >> a >> b;
-	if(a > b) swap(a, b);
-	if(a == 1) ans = (b / 6 * 6) + 2 * max(b % 6 - 3, 0LL);
-	else if(a == 2) ans = b == 2 ? 0 : b == 3 ? 4 : b == 7 ? 12 : a * b;
-	else ans = a * b - ( (a * b) & 1);
-	printf("%lld\n", ans);
-	
-	return 0;
+    cin >> a >> b;
+    if(a > b) swap(a, b);
+    if(a == 1) ans = (b / 6 * 6) + 2 * max(b % 6 - 3, 0LL);
+    else if(a == 2) ans = b == 2 ? 0 : b == 3 ? 4 : b == 7 ? 12 : a * b;
+    else ans = a * b - ( (a * b) & 1);
+    printf("%lld\n", ans);
+    return 0;
 }
