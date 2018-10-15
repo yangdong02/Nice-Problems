@@ -3,10 +3,12 @@ Math Approach
 Problem Link: https://cn.vjudge.net/problem/POJ-2279
 Blog Link: https://blog.csdn.net/ACdreamers/article/details/14549077
 ans = N! / PI(down + right + 1)
-Note: the Blocks must lie in this way: 
+Note: 
+1. the Blocks must lie in this way: 
 ...
 ..
 .
+2. There is also a DP approach, but the memory limit is too tight
 */
 
 #include<cstdio>
