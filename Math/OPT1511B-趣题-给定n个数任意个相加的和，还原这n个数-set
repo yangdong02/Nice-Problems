@@ -1,0 +1,39 @@
+#include<bits/stdc++.h>
+#define rep(i, n) for(int i = 1; i <= n; ++i)
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> pii;
+
+const int maxn = 2000000;
+int T, k, n, a[maxn], vis[maxn], p[maxn], tot = 0;
+int sum[maxn], cnt = 0;
+int main() {
+    scanf("%d", &T);
+    while(T--) {
+        set<pii> s;
+        memset(vis, 0, sizeof vis);
+        scanf("%d", &k);
+        cnt = tot = 0;
+        n = ( 1 << k ) - 1;
+        rep(i, n) scanf("%d", &a[i]);
+        sort(a + 1, a + 1 + n);
+        rep(i, n) s.insert({a[i], i});
+        for(int i = 1; i <= n; ++i) {
+            if(vis[i]) continue;
+            p[++tot] = a[i];
+            int lim = cnt;
+            for(int j = 0; j <= lim; ++j) {
+                int xp = sum[j] + a[i];
+                auto cur = s.lower_bound({xp, 0});
+                if(cur->first != xp) { puts("NO"); goto Next; }
+                vis[cur->second] = true;
+                sum[++cnt] = xp;
+                s.erase(cur);
+            }
+        }
+        rep(i, tot) printf("%d%c", p[i], " \n"[i==tot]);
+        Next:;
+    }
+    
+    return 0;
+}
