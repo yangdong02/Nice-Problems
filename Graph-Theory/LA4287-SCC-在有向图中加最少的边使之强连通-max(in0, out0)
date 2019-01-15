@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+#define rep(i, n) for(int i = 1; i <= n; ++i)
+using namespace std;
+typedef long long ll;
+
+const int MAXN = 202000, MAXM = 500500;
+int T, n, m;
+vector<int> G[MAXN];
+stack<int> S;
+int dfn[MAXN], low[MAXN], sccno[MAXN], dfs_clock, scc_cnt;
+int indeg[MAXN], outdeg[MAXN];
+
+void Tarjan(int v) {
+    dfn[v] = low[v] = ++dfs_clock;
+    S.push(v);
+    for(auto u : G[v]) {
+        if(!dfn[u]) {
+            Tarjan(u);
+            low[v] = min(low[v], low[u]);
+        } else if(!sccno[u]) {
+            low[v] = min(low[v], dfn[u]);
+        }
+    }
+    if(low[v] == dfn[v]) {
+        scc_cnt++;
+        for(;;) {
+            int p = S.top(); S.pop();
+            sccno[p] = scc_cnt;
+            if(p == v) break;
+        }
+    }
+}
+
+int main() {
+    scanf("%d", &T);
+    while(T--) {
+        scanf("%d%d", &n, &m);
+        rep(i, n) G[i].clear();
+        memset(dfn, 0, sizeof(int) * (n + 10));
+        memset(sccno, 0, sizeof(int) * (n + 10));
+        memset(indeg, 0, sizeof(int) * (n + 10));
+        memset(outdeg, 0, sizeof(int) * (n + 10));
+        scc_cnt = dfs_clock = 0;
+
+        rep(i, m) {
+            int x, y;
+            scanf("%d%d", &x, &y);
+            G[x].push_back(y);
+        }
+        rep(i, n) if(!dfn[i]) Tarjan(i);
+        rep(i, n) for(auto v : G[i]) if(sccno[v] != sccno[i]) {
+            indeg[sccno[v]]++;
+            outdeg[sccno[i]]++;
+        }
+        int in0 = 0, out0 = 0;
+        rep(i, scc_cnt) {
+            if(!indeg[i]) in0++;
+            if(!outdeg[i]) out0++;
+        }
+        if(scc_cnt == 1) puts("0");
+        else printf("%d\n", max(in0, out0));
+    }
+    
+    
+    return 0;
+}
